@@ -28,7 +28,7 @@
     "hou": "hours",
     "level_mapping": {
         "t": "choices",
-        "l": "values",
+        "l": "list",
         "f": "from",
         "u": "to"
     }
