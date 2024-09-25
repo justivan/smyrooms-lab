@@ -8,7 +8,7 @@
     "tag": "tag",
     "id": "id",
     "rrg": "range",
-    "cli": "client",
+    "cli": "credential",
     "ps": "ps",
     "cp": "refundable",
     "rat": "rate",

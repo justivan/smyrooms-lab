@@ -11,6 +11,7 @@ class Database:
         "reports_bookingsfinancialdata",
         "reports_hotelsfinancials",
         "reports_clientsrules",
+        "clients_credential"
     ]
 
     def __init__(self):
