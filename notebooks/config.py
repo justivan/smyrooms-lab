@@ -14,7 +14,9 @@ def _parse_bool(val: Union[str, bool]) -> bool:  # pylint: disable=E1136
 
 
 class AppConfig:
-    DATABASE_URI: str
+    DB_CCENTER: str
+    DB_SANDBOX: str
+    APIKEY: str
 
     """
     Map environment variables to class fields according to these rules:

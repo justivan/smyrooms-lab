@@ -9,13 +9,14 @@ from config import Config
 class Database:
     TABLES = [
         "reports_bookingsfinancialdata",
+        "reports_bookingsinitialvalues",
         "reports_hotelsfinancials",
         "reports_clientsrules",
         "clients_credential"
     ]
 
     def __init__(self):
-        self.engine = create_engine(Config.DATABASE_URI)
+        self.engine = create_engine(Config.DB_CCENTER)
         self.metadata = MetaData()
 
         self.load_tables()
