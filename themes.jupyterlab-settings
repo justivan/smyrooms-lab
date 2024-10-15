@@ -1,0 +1,12 @@
+{
+    "theme": "JupyterLab Dark",
+    "theme-scrollbars": false,
+    "overrides": {
+        "code-font-family": "Hack",
+        "code-font-size": null,
+        "content-font-family": "Roboto",
+        "content-font-size1": null,
+        "ui-font-family": "Roboto",
+        "ui-font-size1": null
+    }
+}

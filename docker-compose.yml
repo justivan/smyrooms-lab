@@ -1,0 +1,13 @@
+services:
+  jupyterlab:
+    build: .
+    ports:
+      - 8888:8888
+    volumes:
+      - ${PWD}/notebooks:/home/jovyan/work
+    container_name: jupyterlab
+    env_file:
+      - .env
+    user: root
+    restart: always
+    working_dir: /home/jovyan/work

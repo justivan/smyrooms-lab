@@ -1,0 +1,6 @@
+pandas==2.2.3
+black==24.8.0
+jupyterlab-code-formatter==3.0.2
+psycopg[c]==3.2.2
+isort==5.13.2
+ipydatagrid
