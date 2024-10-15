@@ -9,5 +9,5 @@ services:
     env_file:
       - .env
     user: root
-    restart: always
+    # restart: always
     working_dir: /home/jovyan/work
