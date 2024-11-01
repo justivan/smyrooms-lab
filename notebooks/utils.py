@@ -1,5 +1,7 @@
 import json
+from datetime import datetime
 
+import pandas as pd
 import requests
 
 from config import Config
@@ -45,67 +47,78 @@ class DistributorApi:
             "level_mapping": {"t": "level", "l": "list", "f": "from", "u": "to"},
         }
 
-    def get_all_rules(self):
+    def get_stopsale_rules(self):
         endpoint = f"/api/organizations/lgt/agencies/products/hot/level_closes/"
-        response = requests.get(f"{self.base_url}{endpoint}", headers=self.headers)
 
-        if response.status_code == 200:
-            data = response.json()
+        try:
+            r = requests.get(f"{self.base_url}{endpoint}", headers=self.headers)
+            r.raise_for_status()
 
-            # Flatten the "lvl" field into the main object
-            data = json.loads(
-                json.dumps(data), object_hook=lambda obj: {**obj.pop("lvl", {}), **obj}
-            )
-            rules = data.get("rules", [])
+            print("Rules retrieved successfully.")
 
-            for rule in rules:
-                # Set default "rrg" if missing
-                rrg = rule.get("rrg")
-                if rrg is None:
-                    rule["rrg"] = {"f": 0, "t": 0, "u": 0}
+            return r.json()
 
-                # Rename keys according to metadata
-                for key in list(rule.keys()):
-                    if key in self.metadata:
-                        rule[self.metadata[key]] = rule.pop(key)
+        except requests.exceptions.HTTPError as errh:
+            print("Http Error:", errh)
+        except requests.exceptions.ConnectionError as errc:
+            print("Error Connecting:", errc)
+        except requests.exceptions.Timeout as errt:
+            print("Timeout Error:", errt)
+        except requests.exceptions.RequestException as err:
+            print("Oops: Something Else", err)
 
-                # Handle nested dictionary for level mapping
-                level_mapping = self.metadata["level_mapping"]
-                for key, value in rule.items():
-                    if isinstance(value, dict):
-                        for k in list(value.keys()):
-                            if k in level_mapping:
-                                value[level_mapping[k]] = value.pop(k)
+    def stopsale_rules_to_df(self, data):
+        # Flatten the "lvl" field into the main object
+        data = json.loads(
+            json.dumps(data), object_hook=lambda obj: {**obj.pop("lvl", {}), **obj}
+        )
+        rules = data.get("rules", [])
 
-            return rules
-        return None
+        for rule in rules:
+            # Set default "rrg" if missing
+            rrg = rule.get("rrg")
+            if rrg is None:
+                rule["rrg"] = {"f": 0, "t": 0, "u": 0}
+
+            # Rename keys according to metadata
+            for key in list(rule.keys()):
+                if key in self.metadata:
+                    rule[self.metadata[key]] = rule.pop(key)
+
+            # Handle nested dictionary for level mapping
+            level_mapping = self.metadata["level_mapping"]
+            for key, value in rule.items():
+                if isinstance(value, dict):
+                    for k in list(value.keys()):
+                        if k in level_mapping:
+                            value[level_mapping[k]] = value.pop(k)
+
+        return pd.json_normalize(rules, sep="_")
 
     def delete_rules(self, rule_ids):
         endpoint = "/api/organizations/lgt/agencies/products/hot/level_closes/"
 
         if rule_ids:
             try:
-                response = requests.delete(
+                r = requests.get(
                     f"{self.base_url}{endpoint}",
                     headers=self.headers,
                     data=json.dumps(rule_ids),
                 )
+                r.raise_for_status()
 
-                if response.status_code == 200:
-                    print("Rules deleted successfully.")
-                elif response.status_code == 404:
-                    print("Error: Rules not found.")
-                else:
-                    print(
-                        f"Error: Received unexpected status code {response.status_code}."
-                    )
+                print("Rules deleted successfully.")
 
-                return response
+                return r.json()
 
-            except requests.exceptions.RequestException as e:
-                # Handle network-related errors
-                print(f"An error occurred: {e}")
-                return None
+            except requests.exceptions.HTTPError as errh:
+                print("Http Error:", errh)
+            except requests.exceptions.ConnectionError as errc:
+                print("Error Connecting:", errc)
+            except requests.exceptions.Timeout as errt:
+                print("Timeout Error:", errt)
+            except requests.exceptions.RequestException as err:
+                print("Oops: Something Else", err)
         else:
             print("No rule IDs provided.")
             return None
