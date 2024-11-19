@@ -13,7 +13,10 @@ class Database:
         "reports_specificstopsalesrules",
         "reports_hotelsfinancials",
         "reports_clientsrules",
-        "clients_credential"
+        "clients_credential",
+        "hotel_hotel",
+        "hotel_chain",
+        "hotel_provider",
     ]
 
     def __init__(self):
