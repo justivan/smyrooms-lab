@@ -1,0 +1,5 @@
+hotel_level,hotel_ids,provider_level,provider_ids,check_in_start,check_in_end,commission,remarks
+1,[159382],1,"[BCONG, SMD]",2025-01-23,2025-12-31,-4,Hotel Ciudad De Mostoles
+4,[4589],1,"[BCONG, PRY]",2025-01-23,2025-10-31,-1,Grupo Trevi
+4,[4578],1,"[BCONG, SMD]",2025-01-23,2025-12-31,-3,Ilunion Hotels
+1,"[446424, 95275, 3898206, 4513, 132391, 186059, 1835161, 95448, 132388, 1017295, 3936305, 99075, 3869753, 132415, 102639, 3898266, 3842523, 102687]",1,"[BCONG, PRSP, SMD]",2025-01-23,2025-12-31,-3,Abba Hotels
