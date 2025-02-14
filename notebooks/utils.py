@@ -95,12 +95,12 @@ class DistributorApi:
 
         return pd.json_normalize(rules, sep="_")
 
-    def delete_rules(self, rule_ids):
-        endpoint = "/api/organizations/lgt/agencies/products/hot/level_closes/"
-
+    def delete_rules(self, rule_ids, org):
+        endpoint = f"/api/organizations/{org}/agencies/products/hot/level_closes/"
+        print(endpoint)
         if rule_ids:
             try:
-                r = requests.get(
+                r = requests.delete(
                     f"{self.base_url}{endpoint}",
                     headers=self.headers,
                     data=json.dumps(rule_ids),
