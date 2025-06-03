@@ -11,7 +11,6 @@ class DistributorApi:
     def __init__(self):
         self.base_url = "http://distributor.rules.api.pro.logitravel.internal"
         self.headers = {
-            "Accept": "text/plain",
             "Authorization": f"ApiKey {Config.APIKEY}",
             "Content-Type": "application/json",
         }
